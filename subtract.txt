@@ -1,0 +1,162 @@
+class student:
+    elist = []
+    def __init__(self, id):
+        self.id = id
+    def errorlist(self, list):
+        self.elist.append(list)   
+def borrow(min,sub,ans,a):
+    an=[]
+    count=0
+    for i in range (0,len(sub)):
+        if a==4:
+            if min[i]==0:
+                min[i]=9
+        if a==3 and i!=len(sub)-1:
+            if min[i+1]<sub[i+1]:
+                sub[i+1]-=1
+            else:
+                min[i+1]+=-1
+        if min[i]<sub[i]: # line 5
+            if a!=8:
+                min[i]+=10
+                an.append(min[i]-sub[i])
+            if min[i+1]>sub[i+1]:
+                if a==2:
+                    min[i+1]-=1
+                if a==5:
+                    sub[i+1]-=1
+                if a==8:
+                    if min[i+1]==0:
+                        an.append(sub[i+1])
+                        min[i+2]+=10
+                    else:
+                        an.append(min[i]-sub[i])
+                        min[i+1]-=1
+        else:
+            an.append(min[i]-sub[i])
+        count+=1
+    for i in range(0,len(min)-len(sub)):
+        an.append(min[i+count])
+    count=0
+    for i in range(0,len(ans)):
+        if an[i]==ans[i]:
+            count+=1
+        print(an[i])
+    if count==len(ans):
+        s.errorlist(a)
+        print("blahblah")
+def neg(minu,sub,ans):#arguments as interger,return 1 if error detected,0 if no error
+    ans=abs(ans)
+    if ans==abs(minu-sub) or ans==abs(minu+sub):
+        if minu<0 and sub<0:#both numbers-ve-subtract =neg1
+            s.errorlist("neg1")
+        elif minu<0 and sub>0:#minu<sub-add-result -ve=neg2
+            s.errorlist("neg2")
+        elif minu>0 and sub<0:
+            s.errorlist("neg3")#minu>sub-add-result +ve=neg3
+        return 1
+    else:
+        return 0
+        
+def error1(m,s,a):
+    temp=0
+    for i in range(0,len(s)):
+        if m[i]<s[i]:
+            if(m[i]==0):
+                temp=s[i]
+            if temp==a[i]: 
+                s.errorlist(1)
+def error6(min,sub,ans):
+    a=True
+    count=0
+    for i in range(0,len(min)):
+        if (len(sub)-1)!=i:
+                if len(sub)>i:
+                    if min[i]<sub[i] and a:
+                        min[i]+=10
+                        min[i+1]-=1
+                        a=False
+                if min[i]-sub[i]==ans[i] or min[i]-sub[i]*-1==ans[i]:
+                        count+=1
+                print(min[i]-sub[i])
+    if count==len(ans):
+        s.errorlist(6)
+def error7(min,sub,ans):
+    count=0
+    for i in range(0,len(min)):
+        if len(sub)-1!=i:
+            if min[i]==0:
+                 min.remove(0)
+            if len(sub)>i:
+                if min[i]<sub[i]:
+                    min[i]+=10
+                    min[i+1]-=1
+                if min[i]-sub[i]==ans[i]:
+                    count+=1
+            elif min[i]==ans[i]:
+                count+=1
+    if count==len(ans):
+        s.errorlist(7)
+        '''
+def correctAns():
+    #compare user input with calculated ans
+    #if userinput doesnt math call errDetect()
+    
+    pass
+def errDetect()
+    flag=False #change flag value only when error is identified
+    while(flag)
+'''
+
+def digits(num):# printing number  
+                # using map() 
+                # to convert number to list of integers 
+    l1 = list(map(int, str(num)))
+    return l1 
+    #l2 = list(map(int, str(s)))
+    #l3 = list(map(int, str(a)))
+
+    # printing result  
+    #print ("The list from number is " + str(r1)) 
+    #check = input('enter 5: ')
+    #if int(check)==res[1]:
+        #print("correct")
+    #else:
+        #print("incorrect")
+
+
+def Detect_error(s,d1,d2,d3):
+    print(f'({d1},{d2},{d3})')
+    dd1=str(abs(int(d1)))
+    dd2=str(abs(int(d2)))
+    dd3=str(abs(int(d3)))
+    l1 = digits(dd1)
+    l2 = digits(dd2)
+    l3 = digits(dd3)
+    l1=l1[::-1]
+    l2=l2[::-1]
+    l3=l3[::-1]
+    print(l1)
+    print(l2)
+    w=[3,4,5,8]
+    for i in w:
+        borrow(l1,l2,l3,i)
+    error6(l1,l2,l3)
+    error1(l1,l2,l3)
+    error7(l1,l2,l3)
+    neg(l1,l2,l3)
+    print(f"Student's error list: {s.elist}")
+flag = False
+while not flag: #main block
+    id = input('enter student id: ')
+    s=student(id)
+    num1=int(input("enter the Minuend: "))#a=minuend,b=subtrahend
+    num2=int(input("enter the Subtrahend: "))
+    correct = num1-num2
+    num3=int(input("enter the answer: "))
+    if num3 == correct:
+        print("Your answer is Correct")
+        flag = True
+    else:
+        print("error detected")
+        Detect_error(s,str(num1),str(num2),str(num3))
