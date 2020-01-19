@@ -1,6 +1,7 @@
 from threading import Thread
 import socket
 import sys
+import csv
 s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 conn=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 allconn=[]
@@ -45,8 +46,9 @@ def cliconn(conn):
                 a.pop()
                 a.pop(0)
                 b=''.join(a)
-                print(b)
-                norm(b)
+                if b!='':
+                    print(b)
+                    norm(b)
     except ConnectionResetError:
         print('A client has left')
 
@@ -94,6 +96,7 @@ def norm(a):
     print(mindat)
     print(subdat)
     print(ansdat)
+    writefile(iddat,mindat,subdat,ansdat,mindat-subdat)
 
 class student:
     elist = []
@@ -222,6 +225,12 @@ def Detect_error(s,d1,d2,d3):
     error7(l1,l2,l3)
     neg(l1[i],l2[i],l3[i])
     print(f"Student's error list: {s.elist}")
+    
+def writefile(id,num1,num2,num3,correct):
+    with open("stdrec.csv",'a') as f:#during 1st time ='w'
+        w=csv.writer(f)
+       # w.writerow(["id","minuend","subtrathend","student answer","actual answer","errors"])#"should be incuded whie writing 1st time"
+        w.writerow([id,num1,num2,num3,correct])
 
 t=Thread(target=lstn)
 t.daemon=True
