@@ -6,16 +6,179 @@ class student:
     def errorlist(self, list):
         self.elist.append(list)
         
-def borrow(min,sub):
+def borrow(s,min,sub,ans):
     if len(min) == 1:
             return 0
-    else:       #add false borrow, false decrement
-        if len(min)!=len(sub):#not in all cases length of min=sub,so add 0 for reainng degits
-            for i in range (0,len(min)-len(sub)):
-                sub.insert(i,0)
+    else:
+        bindex=[]
+        m=convert(min)
+        a=convert(ans)
+        count=0      
         for x in range(len(min)):
-            if sub[x]>min[x]:#   ?!not all time minuend will be equal to subracsssssstend
-                return x
+            if sub[x]>min[x] or (sub[x]==min[x] and sub[x+1]>min[x+1]):
+                print(f"Borrow at: {x}")
+                bindex.insert(count,x)
+                count+=1
+        e1(s,min,sub,ans,bindex)
+        e2(s,min,sub,ans,bindex)
+        e3(s,min,sub,ans,bindex)
+        e4(s,min,sub,ans,bindex)
+        e5(s,min,sub,ans,bindex)
+        e6(s,min,sub,ans,bindex)
+        e7(s,min,sub,ans,bindex)
+        e8(s,min,sub,ans)           #e9 nested in e8
+        #e10(s,min,sub,ans,bindex)
+        e11(s,min,sub,ans,bindex)
+        e12(s,min,sub,ans,bindex)
+        #e13
+        e14(s,min,sub,ans,bindex)
+        #e15(s,min,sub,ans,bindex)
+
+                                        
+def e1(s,min,sub,ans,bindex):
+    size=len(bindex)            #starting of 419
+    while(size>0):
+        x=bindex[size-1]
+        if(min[x]==1 and sub[x]!=1 and ans[x] == 0):
+            s.errorlist("e1")
+        size-=1
+
+def e2(s,min,sub,ans,bindex):
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1]
+        if(min[x]==1 and ans[x]== sub[x] and sub[x]!=1):
+            s.errorlist("e2")
+        size-=1
+
+def e3(s,min,sub,ans,bindex):
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1]
+        if(min[x]==sub[x]==1 and ans[x]==0):
+            s.errorlist("e3")
+        size-=1
+
+def e4(s,min,sub,ans,bindex):
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1]
+        if(ans[x]== 1 and sub[x]==1 and min[x]==1):
+            s.errorlist("e4")
+        size-=1
+
+def e5(s,min,sub,ans,bindex):
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1] 
+        t1=min
+        t2=int(min[x-1])
+        t3=t2-1
+        t4=int(sub[x-1])
+        t5=int(ans[x-1])
+        if(t5 == (t3+t4)):
+            s.errorlist("e5")
+        size-=1
+
+def e6(s,min,sub,ans,bindex):
+    tempmin = convert(min)
+    tempsub = convert(sub)
+    tempans = digits(tempmin - tempsub)
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1]    
+        t1=int(min[x-1])
+        t2=int(sub[x-1])
+        t3=t1-t2 + 1
+        if(t3<10):
+            tempans[x-1] = t3
+        else:
+            tempans[x-1] = 0
+            tempans[x-2] = int(tempans[x-2])+1
+        if(tempans == ans):
+            s.errorlist("e6")
+        size-=1
+
+def e7(s,min,sub,ans,bindex):
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1]
+        t1=int(min[x-1])
+        t2=int(sub[x-1])
+        t3=t1-t2 + 1
+        if(t3 == 10):
+            if((ans[x-1] == 1) and (ans[x] == 0)):
+                s.errorlist("e7")
+        size-=1
+
+def e8(s,min,sub,ans):
+    t1= convert(min) + convert(sub)
+    t2= digits(t1)
+    if(ans == t2):
+        s.errorlist("e8")
+    elif(ans == digits(t1-10)):
+        s.errorlist("e9")
+'''
+def e10(s,min,sub,ans):
+    pass
+'''
+def e11(s,min,sub,ans,bindex):              #end of page 419
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1]           
+        t1=int(min[x])+10
+        t2=int(sub[x])
+        t3=t1-t2
+        t4=int(min[0])-1
+        t5=t4-int(sub[0])
+        if(t3==ans[x] and t5==ans[0]):
+            s.errorlist("e11")
+        size-=1
+
+def e12(s,min,sub,ans,bindex):              #starting page 420
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1]                  
+        t1=int(ans[x])
+        t2=int(min[x-1])-int(ans[x-1])
+        if(t1 == t2):
+            s.errorlist("e12")
+        size-=1
+'''
+def e13(s,min,sub,ans,bindex):
+    pass
+'''
+def e14(s,min,sub,ans,bindex):
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1]
+        t1=int(min[x-1])
+        count=0
+        if(t1==0):
+            while(min[x-1]==0):
+                count+=1
+                x-=1
+        t2=int(min[x-count])
+        t3=int(sub[x-count])
+        t4=int(ans[x-count])
+        if(t4 == (t2-t3)):
+            s.errorlist("e14")
+        size-=1
+            
+'''
+def e15(s,min,sub,ans,bindex):
+    size=len(bindex)
+    while(size>0):
+        x=bindex[size-1]
+        t1=int(min[x-1])
+        if(t1==0):
+            t2=int(min[x-2])
+            t3=(t2-1)-(sub[x-2])
+            if(t2==t3):
+                s.errorlist("e15")
+                
+        size-=1
+'''
 
 def neg(minu,sub,ans):#arguments as interger,return 1 if error detected,0 if no error
     ans=abs(ans)
@@ -29,17 +192,7 @@ def neg(minu,sub,ans):#arguments as interger,return 1 if error detected,0 if no 
         return 1
     else:
         return 0
-        
-def basicsub(s,correct,ans):
-    right_ans = digits(correct)
-    std_ans = digits(ans)
-    s1 = len(right_ans)
-    s2 = len(std_ans)
-    if s2 > s1 or ans > correct:
-        print("Basic Concept Fault")
-        s.elist('BasicError')
-
-    
+         
 '''
 def correctAns():
     #compare user input with calculated ans
@@ -56,17 +209,15 @@ def digits(num):# printing number
                 # to convert number to list of integers 
     l1 = list(map(int, str(num)))
     return l1 
-    #l2 = list(map(int, str(s)))
-    #l3 = list(map(int, str(a)))
 
-    # printing result  
-    #print ("The list from number is " + str(r1)) 
-    #check = input('enter 5: ')
-    #if int(check)==res[1]:
-        #print("correct")
-    #else:
-        #print("incorrect")
-
+def convert(list): 
+      
+    # Converting integer list to string list 
+    # and joining the list using join() 
+    res = int("".join(map(str, list))) 
+      
+    return res 
+     
 
 def Detect_error(s,d1,d2,d3):
     print(f'({d1},{d2},{d3})')
@@ -76,19 +227,25 @@ def Detect_error(s,d1,d2,d3):
     l1 = digits(dd1)
     l2 = digits(dd2)
     l3 = digits(dd3)
+    if len(l1)>len(l2):
+            for i in range (len(l1)-len(l2)):
+                l2.insert(i,0)
+    if len(l1)>len(l3):
+            for i in range (len(l1)-len(l3)):
+                l3.insert(i,0)
     print(l1)
     print(l2)
-    b1 = borrow(l1,l2)
-    if b1 != None:
-        s.errorlist("Borrow error")
-
-    print(f"Borrow at: {b1}")
+    print(l3)
+    #e8(s,l1,l2,l3)
+    borrow(s,l1,l2,l3)
     print(f"Student's error list: {s.elist}")
+
+
 flag = False
 while not flag: #main block
     id = input('enter student id: ')
     s=student(id)
-    num1=int(input("enter the Minuend: "))#a=minuend,b=subtrahend
+    num1=int(input("enter the Minuend: "))
     num2=int(input("enter the Subtrahend: "))
     correct = num1-num2
     num3=int(input("enter the answer: "))
@@ -97,7 +254,7 @@ while not flag: #main block
         flag = True
     else:
         print("error detected")
-        basicsub(s,correct,num3)
+        #basicsub(s,num1,num3)
         n=neg(num1,num2,num3)#pass as integer
         Detect_error(s,str(num1),str(num2),str(num3))
 
