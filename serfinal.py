@@ -119,7 +119,7 @@ def borrow(s,min,sub,ans):
         a=convert(ans)
         count=0      
         for x in range(len(min)):
-            if sub[x]>min[x] or (sub[x]==min[x] and sub[x+1]>min[x+1]):
+            if sub[x]>min[x] or (sub[x]==min[x] and sub[x+1]>min[x+1]) and min[]:
                 print(f"Borrow at: {x}")
                 bindex.insert(count,x)
                 count+=1
@@ -340,8 +340,8 @@ def Detect_error(s,d1,d2,d3):
     print(l1)
     print(l2)
     print(l3)
-    #e8(s,l1,l2,l3)
-    borrow(s,l1,l2,l3)
+    if(d3 != (d1-d2)):
+        borrow(s,l1,l2,l3)
     print(f"Student's error list: {s.elist}")
 
 
