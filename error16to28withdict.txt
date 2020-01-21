@@ -1,0 +1,229 @@
+class student:
+    elist = []
+    def __init__(self, id):
+        self.id = id
+    def errorlist(self, list):
+        self.elist.append(list)  
+        print(dict[s.elist[list]])
+def borrow(min,sub,ans,a):
+    an=[]
+    count=0
+    for i in range (0,len(sub)-1):
+        if a==4:
+            if min[i]==0:
+                min[i]=9
+        if a==3 and i!=len(sub)-1:
+            if min[i+1]<sub[i+1]:
+                sub[i+1]-=1
+            else:
+                min[i+1]+=-1
+        if min[i]<sub[i]: # line 5
+            if a!=1:
+                min[i]+=10
+                an.append(min[i]-sub[i])
+            if min[i+1]>sub[i+1]:
+                if a==2:
+                    min[i+1]-=1
+                if a==5:
+                    sub[i+1]-=1
+                if a==1:
+                    if min[i+1]==0:
+                        an.append(sub[i+1])
+                        min[i+2]+=10
+                    else:
+                        an.append(min[i]-sub[i])
+                        min[i+1]-=1
+        else:
+            an.append(min[i]-sub[i])
+        count+=1
+    for i in range(0,len(min)-len(sub)):
+        an.append(min[i+count])
+    count=0
+    for i in range(0,len(ans)):
+        try:
+            if an[i]==ans[i]:
+                count+=1
+        except:
+            i-=1
+    if count==len(ans):
+        s.errorlist(a)
+        flag1=True
+def neg(minu,sub,ans):#arguments as interger,return 1 if error detected,0 if no error
+    ans=abs(ans)
+    if ans==abs(minu-sub) or ans==abs(minu+sub):
+        if minu<0 and sub<0:#both numbers-ve-subtract =neg1
+            flag1=True
+            s.errorlist(12+15)
+        elif minu<0 and sub>0:#minu<sub-add-result -ve=neg2
+            flag1=True
+            s.errorlist(13+15)
+        elif minu>0 and sub<0:
+            flag1=True
+            s.errorlist(14+15)#minu>sub-add-result +ve=neg3
+        
+def error1(m,s,a):
+    temp=0
+    for i in range(0,len(a)):
+        if m[i]<s[i]:
+            if(m[i]==0):
+                temp=s[i]
+            if temp==a[i]: 
+                flag1=True
+                s.errorlist(1)
+def error6(min,sub,ans):
+    a=True
+    count=0
+    for i in range(0,len(ans)):
+        if (len(sub)-1)!=i:
+                if len(sub)>i:
+                    if min[i]<sub[i] and a:
+                        min[i]+=10
+                        min[i+1]-=1
+                        a=False
+                if min[i]-sub[i]==ans[i] or min[i]-sub[i]*-1==ans[i]:
+                        count+=1
+    if count==len(ans):
+        s.errorlist(6)
+        flag1=True
+def error7(min,sub,ans):
+    count=0
+    for i in range(0,len(sub)):
+        if len(sub)-1!=i:
+            if min[i]==0:
+                 min.remove(0)
+            if len(sub)>i:
+                if min[i]<sub[i]:
+                    min[i]+=10
+                    min[i+1]-=1
+                if min[i]-sub[i]==ans[i]:
+                    count+=1
+            elif min[i]==ans[i]:
+                count+=1
+    if count==len(ans):
+        s.errorlist(7)
+        flag1=True
+def error8(min,sub,ans):
+    temp=0
+    for i in range(0,len(ans)):
+        if min[i]==1 and min[i]-sub[i]!=0:# 0 for 1
+            temp=1# o for 1
+        if temp==ans[i] and min[i]!=sub[i]:
+            s.errorlist(8+15)
+            flag1=True
+            
+def error9(min,sub,ans):#([5,0,3],[9],[6,0,1])
+    temp=0
+    if len(min)>len(sub):
+        for i in range(len(min)-len(sub)-1,len(ans)):
+            if min[i]==0:
+                temp=0
+            if temp==ans[i]:
+                s.errorlist(9+15)
+                flag1=True
+                
+def error10(min,sub,ans):#(178,21,5)
+    temp=0
+    count=0
+    if len(min)>len(sub):
+        for i in range(len(min)-len(sub)-1,len(ans)):
+            temp=min[i]
+            if temp==ans[i]:
+                count+=1
+        if count==len(min)-len(sub)-1:
+            s.errorlist(10+15)
+            flag1=True
+            
+def error11(min,sub,ans):
+    temp=0
+    for i in range(0,len(ans)):
+        if min[i]==sub[i] and min[i]-sub[i]!=0:
+            temp=min
+            if temp==ans[i] and min[i]!=sub[i]:
+                s.errorlist(11+15)
+                flag1=True
+        
+def digits(num):# printing number  
+                # using map() 
+                # to convert number to list of integers 
+    l1 = list(map(int, str(num)))
+    return l1 
+
+def Detect_error(s,d1,d2,d3):
+    print(f'({d1},{d2},{d3})')
+    dd1=str(abs(int(d1)))
+    dd2=str(abs(int(d2)))
+    dd3=str(abs(int(d3)))
+    l1 = digits(dd1)
+    l2 = digits(dd2)
+    l3 = digits(dd3)
+    l1=l1[::-1]
+    l2=l2[::-1]
+    l3=l3[::-1]
+    print(l1)
+    print(l2)
+    for i in range(0,len(l3)):
+        if i>=len(l2):
+            l2.append(0)
+    for i in range(1,6):
+        borrow(l1,l2,l3,i)
+    error6(l1,l2,l3)
+    error1(l1,l2,l3)
+    error7(l1,l2,l3)
+    error8(l1,l2,l3)
+    error9(l1,l2,l3)
+    error10(l1,l2,l3)
+    error11(l1,l2,l3)
+    for i in range(0,len(l3)):
+        neg(l1[i],l2[i],l3[i])
+    if flag==False:
+        s.errorlist(15)#none of them is matched
+    print(f"Student's error list: {s.elist}")
+flag = False
+global flag1
+while not flag: #main block
+    flag1=False
+    id = input('enter student id: ')
+    s=student(id)
+    num1=int(input("enter the Minuend: "))#a=minuend,b=subtrahend
+    num2=int(input("enter the Subtrahend: "))
+    correct = num1-num2
+    num3=int(input("enter the answer: "))
+    if num3 == correct:
+        print("Your answer is Correct")
+        flag = True
+    else:
+        print("error detected")
+        Detect_error(s,str(num1),str(num2),str(num3))
+
+
+
+
+dict={1:"When a column has a 1 that was changed to CI 0 by a previous borrow, the student writes 0 as the answer to that column",
+      2:"When a column has a 1 that was changed to o 0 by D previous borrow, the student writes the bottom digit ~1s the cmswer to that column",
+      3:"If a column starts with 1 in both top and bottom and is borrowed from, the student writes 0 as the answer to that column.",
+      4:"If CJ column starts with 1 in both top and bottom and is borrowed from, the student writes 1 CIS the answer to that column",
+      5:"The student adds instead of subtracting but he subtracts the carried digit instead of adding it.",
+      6:"Instead of decrementing the student odds 1, carrying to the next column if necessary.",
+      7:"Instead of decrementing the student adds 1. If this oddition results in 10 the student does not carry but simply writes both digits in the some space.",
+      8:"The student adds instead of subtracting.",
+      9:"The student adds instead of subtracting. If carrying is required he does not add the carried digit.",
+      10:"The student borrows in every column regardless of whether P is necessary.",
+      11:"The student borrows from the leftmost digit instead of borrowing from the digit immediately to the left",
+      12:"When o borrow is needed the student simply skips the column and goes on to the next",
+      13:"When decrementing a column in which the top is smaller thon the bottom, the student odds 10 to the top digit, decrements the column being borrowed into and borrow from the next column to the left. Also the student skips any column which hos a 0 over o 0 or a blank in the borrowing process.",
+      14:"When borrowing across o 0, the student skips over the 0 to borrow from the next column. If this causes him to have to borrow twice he decrements the some number both times.",
+      15:"nothing match",
+      16:"The student doesn’t borrow. For columns of the form 0 - N he writes N as the answer. Otherwise he writes 0.",
+      17:"The student will not dwement a column if the top number is smaller thon the bottom number",
+      18:"lnstwd of borrowing across O’s, the student &nges all the O’s to 9’s but does not continue borrowing from the column to the left.",
+      19:"When borrowing across 0, the student changes the 0 to 10 and does not decrement any digit to the left. However, if the newly crwted 10 is over zero, the student carries instead of trying to write ten in the answer.",
+      20:"When borrowing from a 1, the student changes the 1 to 10 instead of to 0",
+      21:"When borrowing across o 0 over o blank, the student treats the column with the zero os if it weren’t there",
+      22:"When borrowing the student odds 10 correctly but doesn’t change any column to the left. ",
+      23:"When borrowing across o 0 and the borrow is covsed by o 0, the student changes the 0 he is borrowing across into o 10 insteod of Q 9",
+      24:"When borrowing across o 0, the student changes the 0 to a 10 instead of a 9 unless the 0 is over a blank, in which core he does the correct thing. ",
+      25:"The student doesn’t decrement a number that is over a blank. ",
+      26:"when both numbers-ve-the student had added instead of subtraction",
+      27:" when minuend negative (less than) subtrahend positive and the student the result in negative sign",
+      28:" when minuend positive (less than) subtrahend negative and the student the result in positive sign"
+     }
